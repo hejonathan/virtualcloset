@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import Webcam from "react-webcam";
+import React from "react";
 
 const images = [
   "https://via.placeholder.com/150",
@@ -17,7 +16,7 @@ const images = [
   // Add more image URLs here
 ];
 
-const Shelf = () => {
+const ClosetShelf = () => {
   return (
     <div
       className="container"
@@ -44,4 +43,4 @@ const Shelf = () => {
   );
 };
 
-export default Shelf;
+export default ClosetShelf;

@@ -1,7 +1,8 @@
 import Alert from "./components/Alert";
 import ListGroup from "./components/ListGroup";
 import Button from "./components/Button"; //bottom two buttons
-import Shelf from "./components/Shelf"; //closet
+import ClosetShelf from "./components/Shelf"; //closet
+import CameraPage from "./components/Camera";
 
 import React, { useState } from "react";
 
@@ -29,15 +30,23 @@ function App() {
           color1={colors.secondary}
           borderColor1={colors.third}
           onClick1={() => setPage("myCloset")}
-          children1="My Closet"
+          children1="Closet"
           color2={colors.secondary}
           borderColor2={colors.third}
-          onClick2={() => console.log("Clicked outfit planner")}
+          onClick2={() => setPage("planOutfit")}
           children2="Plan Outfit"
+          color3={colors.secondary}
+          borderColor3={colors.third}
+          onClick3={() => setPage("camera")}
+          children3="Camera"
           setPage={setPage}
         />
+      ) : page === "myCloset" ? (
+        <ClosetShelf />
+      ) : page === "planOutfit" ? (
+        <ClosetShelf />
       ) : (
-        <Shelf /> // The component to render when page === 'myCloset'
+        <CameraPage />
       )}
     </div>
   );
