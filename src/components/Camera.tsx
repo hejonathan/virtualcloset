@@ -1,10 +1,16 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 
 const CameraPage = () => {
   const webcamRef = useRef<Webcam | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [webcamHeight, setWebcamHeight] = useState(0);
+  const [webcamWidth, setWebcamWidth] = useState(0);
 
+  useEffect(() => {
+    setWebcamWidth(window.innerWidth * 0.8);
+    setWebcamHeight(window.innerHeight * 0.3);
+  }, []);
   const capture = () => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
@@ -37,14 +43,14 @@ const CameraPage = () => {
         alignItems: "center",
         justifyContent: "flex-start",
         height: "100vh",
-        paddingTop: "10px",
+        paddingTop: "80px",
       }}
     >
       <Webcam
         audio={false}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
-        style={{ width: "80%", height: "30%" }}
+        style={{ width: `${webcamWidth}px`, height: `${webcamHeight}px` }}
       />
       <button
         onClick={capture}
@@ -54,9 +60,9 @@ const CameraPage = () => {
           fontSize: "20px",
           padding: "10px 20px",
           borderRadius: "5px",
-          border: "none",
+          border: "2px solid black",
           cursor: "pointer",
-          marginTop: "10px",
+          marginTop: "20px",
         }}
       >
         Take a Picture
@@ -66,7 +72,12 @@ const CameraPage = () => {
         <>
           <img
             src={capturedImage}
-            style={{ maxWidth: "90%", height: "auto", paddingTop: "20px" }}
+            style={{
+              width: webcamWidth,
+              height: webcamHeight,
+              objectFit: "contain",
+              paddingTop: "20px",
+            }}
           />
           <button
             onClick={saveImage}
@@ -76,7 +87,7 @@ const CameraPage = () => {
               fontSize: "20px",
               padding: "10px 20px",
               borderRadius: "5px",
-              border: "none",
+              border: "2px solid black",
               cursor: "pointer",
               marginTop: "20px",
             }}

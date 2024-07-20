@@ -25,9 +25,10 @@ const ClosetShelf = () => {
         flexWrap: "wrap",
         justifyContent: "space-around",
         padding: "10px",
-        marginTop: "100px",
+        marginTop: "9vh",
+        marginBottom: "9vh", // Add this line
         overflowY: "auto",
-        maxHeight: "80vh",
+        maxHeight: "75vh",
       }}
     >
       {images.map((image, index) => (

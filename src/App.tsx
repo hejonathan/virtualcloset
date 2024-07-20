@@ -25,18 +25,51 @@ function App() {
 
   return (
     <div>
+      <button
+        onClick={() => setPage("home")}
+        style={{
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          backgroundColor: colors.secondary,
+          color: "black",
+          borderColor: colors.third,
+          fontSize: "16px",
+          padding: "5px",
+          borderRadius: "3px",
+          border: "2px solid",
+          cursor: "pointer",
+        }}
+      >
+        ← HOME
+      </button>
+      <Button
+        color1={colors.secondary}
+        borderColor1={"black"}
+        onClick1={() => setPage("myCloset")}
+        children1="Closet"
+        color2={colors.secondary}
+        borderColor2={"black"}
+        onClick2={() => setPage("planOutfit")}
+        children2="Plan Outfit"
+        color3={colors.secondary}
+        borderColor3={"black"}
+        onClick3={() => setPage("camera")}
+        children3="Camera"
+        setPage={setPage}
+      />
       {page === "home" ? (
         <Button
           color1={colors.secondary}
-          borderColor1={colors.third}
+          borderColor1={"black"}
           onClick1={() => setPage("myCloset")}
           children1="Closet"
           color2={colors.secondary}
-          borderColor2={colors.third}
+          borderColor2={"black"}
           onClick2={() => setPage("planOutfit")}
           children2="Plan Outfit"
           color3={colors.secondary}
-          borderColor3={colors.third}
+          borderColor3={"black"}
           onClick3={() => setPage("camera")}
           children3="Camera"
           setPage={setPage}
