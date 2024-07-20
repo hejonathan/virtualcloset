@@ -12,6 +12,23 @@ const CameraPage = () => {
     }
   };
 
+  const saveImage = async () => {
+    if (capturedImage) {
+      //Convert base64 image data to Blob
+      const response = await fetch(capturedImage);
+      const blob = await response.blob();
+
+      //Send Blob to server
+      const formData = new FormData();
+      formData.append("image", blob, "captured_image.jpeg");
+
+      fetch("http://your-server.com/save-image", {
+        method: "POST",
+        body: formData,
+      });
+    }
+  };
+
   return (
     <div
       style={{
@@ -27,7 +44,7 @@ const CameraPage = () => {
         audio={false}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
-        style={{ width: "90%", height: "auto" }}
+        style={{ width: "80%", height: "30%" }}
       />
       <button
         onClick={capture}
@@ -44,11 +61,29 @@ const CameraPage = () => {
       >
         Take a Picture
       </button>
+
       {capturedImage && (
-        <img
-          src={capturedImage}
-          style={{ maxWidth: "90%", height: "auto", paddingTop: "10px" }}
-        />
+        <>
+          <img
+            src={capturedImage}
+            style={{ maxWidth: "90%", height: "auto", paddingTop: "20px" }}
+          />
+          <button
+            onClick={saveImage}
+            style={{
+              backgroundColor: "#87c1d8",
+              color: "black",
+              fontSize: "20px",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              border: "none",
+              cursor: "pointer",
+              marginTop: "20px",
+            }}
+          >
+            Save Image
+          </button>
+        </>
       )}
     </div>
   );
