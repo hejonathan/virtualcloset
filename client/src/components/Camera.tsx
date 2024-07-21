@@ -28,11 +28,21 @@ const CameraPage = () => {
       const formData = new FormData();
       formData.append("image", blob, "captured_image.jpeg");
 
-      fetch("http://your-server.com/save-image", {
+      fetch("/api/save-clothing", {  
         method: "POST",
         body: formData,
-      });
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          console.log(data.message);
+        } else if (data.error) {
+          console.error(data.error);
+        }
+      })
+      .catch(error => console.error('Error:', error));
     }
+    
   };
 
   return (
