@@ -28,7 +28,7 @@ const ClosetShelf = () => {
         marginTop: "9vh",
         marginBottom: "9vh", // Add this line
         overflowY: "auto",
-        maxHeight: "75vh",
+        maxHeight: "79vh",
       }}
     >
       {images.map((image, index) => (

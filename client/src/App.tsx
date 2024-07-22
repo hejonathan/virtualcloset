@@ -1,7 +1,7 @@
 import Alert from "./components/Alert";
 import ListGroup from "./components/ListGroup";
-import Button from "./components/Button"; // bottom three buttons
-import ClosetShelf from "./components/Shelf"; // closet
+import Button from "./components/Button"; //bottom two buttons
+import ClosetShelf from "./components/Shelf"; //closet
 import CameraPage from "./components/Camera";
 
 import React, { useState } from "react";
@@ -54,7 +54,7 @@ function App() {
           color2={colors.secondary}
           borderColor2={"black"}
           onClick2={() => setPage("planOutfit")}
-          children2="Plan Outfit"
+          children2="Outfit"
           color3={colors.secondary}
           borderColor3={"black"}
           onClick3={() => setPage("camera")}
@@ -68,23 +68,25 @@ function App() {
       ) : (
         <CameraPage />
       )}
-      <div className="bottom-fixed-container">
-        <Button
-          color1={colors.secondary}
-          borderColor1={"black"}
-          onClick1={() => setPage("myCloset")}
-          children1="Closet"
-          color2={colors.secondary}
-          borderColor2={"black"}
-          onClick2={() => setPage("planOutfit")}
-          children2="Plan Outfit"
-          color3={colors.secondary}
-          borderColor3={"black"}
-          onClick3={() => setPage("camera")}
-          children3="Camera"
-          setPage={setPage}
-        />
-      </div>
+      {page !== "home" && (
+        <div className="d-flex justify-content-between position-fixed bottom-0 start-0 end-0 p-3">
+          <Button
+            color1={colors.secondary}
+            borderColor1={"black"}
+            onClick1={() => setPage("myCloset")}
+            children1="Closet"
+            color2={colors.secondary}
+            borderColor2={"black"}
+            onClick2={() => setPage("planOutfit")}
+            children2="Outfit"
+            color3={colors.secondary}
+            borderColor3={"black"}
+            onClick3={() => setPage("camera")}
+            children3="Camera"
+            setPage={setPage}
+          />
+        </div>
+      )}
     </div>
   );
 }
