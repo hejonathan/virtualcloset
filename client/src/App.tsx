@@ -30,6 +30,8 @@ function App() {
       <button
         onClick={() => setPage("home")}
         style={{
+          width: "24vw", // 10% of the viewport's width
+          height: "4vh", // 5% of the viewport's height
           position: "absolute",
           top: "20px",
           left: "20px",
@@ -37,6 +39,7 @@ function App() {
           color: "black",
           borderColor: colors.third,
           fontSize: "16px",
+          fontFamily: "Lato, sans-serif",
           padding: "5px",
           borderRadius: "3px",
           border: "2px solid",
@@ -50,15 +53,15 @@ function App() {
           color1={colors.secondary}
           borderColor1={"black"}
           onClick1={() => setPage("myCloset")}
-          children1="Closet"
+          children1="CLOSET"
           color2={colors.secondary}
           borderColor2={"black"}
           onClick2={() => setPage("planOutfit")}
-          children2="Outfit"
+          children2="OUTFIT"
           color3={colors.secondary}
           borderColor3={"black"}
           onClick3={() => setPage("camera")}
-          children3="Camera"
+          children3="CAMERA"
           setPage={setPage}
         />
       ) : page === "myCloset" ? (
@@ -74,15 +77,15 @@ function App() {
             color1={colors.secondary}
             borderColor1={"black"}
             onClick1={() => setPage("myCloset")}
-            children1="Closet"
+            children1="CLOSET"
             color2={colors.secondary}
             borderColor2={"black"}
             onClick2={() => setPage("planOutfit")}
-            children2="Outfit"
+            children2="OUTFIT"
             color3={colors.secondary}
             borderColor3={"black"}
             onClick3={() => setPage("camera")}
-            children3="Camera"
+            children3="CAMERA"
             setPage={setPage}
           />
         </div>

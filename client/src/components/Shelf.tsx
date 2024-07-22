@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import TagDropdown from "./TagDropdown";
 
 const images = [
   "https://via.placeholder.com/150",
@@ -17,6 +18,16 @@ const images = [
 ];
 
 const ClosetShelf = () => {
+  const [selectedTag, setSelectedTag] = useState("");
+
+  const handleTagSelected = (tag: string) => {
+    setSelectedTag(tag);
+  };
+
+  const filteredImages = images.filter((image) => {
+    // Replace this with your actual logic for determining if an image has a tag
+    return selectedTag === "" || image.includes(selectedTag);
+  });
   return (
     <div
       className="container"
@@ -31,7 +42,8 @@ const ClosetShelf = () => {
         maxHeight: "79vh",
       }}
     >
-      {images.map((image, index) => (
+      <TagDropdown onTagSelected={handleTagSelected} />
+      {filteredImages.map((image, index) => (
         <div key={index} style={{ width: "calc(50% - 20px)", margin: "10px" }}>
           <img
             src={image}

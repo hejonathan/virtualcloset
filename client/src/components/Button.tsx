@@ -35,6 +35,7 @@ const Button: React.FC<Props> = ({
         style={{
           backgroundColor: color1,
           border: `2px solid ${borderColor1}`,
+          fontSize: "16px",
         }}
         className="btn btn-lg button-style"
         onClick={() => {
@@ -48,6 +49,7 @@ const Button: React.FC<Props> = ({
         style={{
           backgroundColor: color2,
           border: `2px solid ${borderColor2}`,
+          fontSize: "16px",
         }}
         className="btn btn-lg button-style"
         onClick={() => {
@@ -61,6 +63,7 @@ const Button: React.FC<Props> = ({
         style={{
           backgroundColor: color3,
           border: `2px solid ${borderColor3}`,
+          fontSize: "16px",
         }}
         className="btn btn-lg button-style"
         onClick={() => {
