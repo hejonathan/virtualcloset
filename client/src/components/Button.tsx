@@ -1,34 +1,37 @@
+import React, { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+
 interface Props {
-  children1: string;
-  children2: string;
-  children3: string;
   color1: string;
-  color2: string;
-  color3: string;
   borderColor1: string;
-  borderColor2: string;
-  borderColor3: string;
   onClick1: () => void;
+  children1: ReactNode;
+  color2: string;
+  borderColor2: string;
   onClick2: () => void;
+  children2: ReactNode;
+  color3: string;
+  borderColor3: string;
   onClick3: () => void;
-  setPage: (page: string) => void;
+  children3: ReactNode;
 }
 
 const Button: React.FC<Props> = ({
-  children1,
-  onClick1,
   color1,
   borderColor1,
-  children2,
-  onClick2,
+  onClick1,
+  children1,
   color2,
   borderColor2,
-  children3,
-  onClick3,
+  onClick2,
+  children2,
   color3,
   borderColor3,
-  setPage,
+  onClick3,
+  children3,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="bottom-fixed-container">
       <button
@@ -40,7 +43,7 @@ const Button: React.FC<Props> = ({
         className="btn btn-lg button-style"
         onClick={() => {
           onClick1();
-          setPage("myCloset");
+          navigate("/myCloset");
         }}
       >
         {children1}
@@ -54,7 +57,7 @@ const Button: React.FC<Props> = ({
         className="btn btn-lg button-style"
         onClick={() => {
           onClick2();
-          setPage("planOutfit");
+          navigate("/planOutfit");
         }}
       >
         {children2}
@@ -68,7 +71,7 @@ const Button: React.FC<Props> = ({
         className="btn btn-lg button-style"
         onClick={() => {
           onClick3();
-          setPage("camera");
+          navigate("/camera");
         }}
       >
         {children3}

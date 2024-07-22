@@ -1,16 +1,20 @@
 import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
+import { useNavigate } from "react-router-dom";
 
 const CameraPage = () => {
   const webcamRef = useRef<Webcam | null>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
+  const [processedImage, setProcessedImage] = useState<string | null>(null);
   const [webcamHeight, setWebcamHeight] = useState(0);
   const [webcamWidth, setWebcamWidth] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setWebcamWidth(window.innerWidth * 0.8);
     setWebcamHeight(window.innerHeight * 0.3);
   }, []);
+
   const capture = () => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
@@ -28,21 +32,27 @@ const CameraPage = () => {
       const formData = new FormData();
       formData.append("image", blob, "captured_image.jpeg");
 
-      fetch("/api/save-clothing", {  
+      const requestOptions = {
         method: "POST",
         body: formData,
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.message) {
-          console.log(data.message);
-        } else if (data.error) {
-          console.error(data.error);
-        }
-      })
-      .catch(error => console.error('Error:', error));
+      };
+
+      fetch("http://localhost:5000/process-image", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message) {
+            console.log(data.message);
+            setProcessedImage(data.processedImage);
+            console.log("Processed Image:", data.processedImage);
+            navigate("/add-tag", {
+              state: { processedImage: data.processedImage },
+            });
+          } else if (data.error) {
+            console.error(data.error);
+          }
+        })
+        .catch((error) => console.error("Error:", error));
     }
-    
   };
 
   return (
@@ -67,15 +77,17 @@ const CameraPage = () => {
         style={{
           backgroundColor: "#87c1d8",
           color: "black",
-          fontSize: "20px",
           padding: "10px 20px",
-          borderRadius: "5px",
-          border: "2px solid black",
           cursor: "pointer",
           marginTop: "20px",
+          fontSize: "18px",
+          borderRadius: "3px",
+          border: "2px solid",
+          fontFamily: "Lato, sans-serif",
+          borderColor: "#212529",
         }}
       >
-        Take a Picture
+        CAPTURE IMAGE
       </button>
 
       {capturedImage && (
@@ -94,15 +106,17 @@ const CameraPage = () => {
             style={{
               backgroundColor: "#87c1d8",
               color: "black",
-              fontSize: "20px",
               padding: "10px 20px",
-              borderRadius: "5px",
-              border: "2px solid black",
               cursor: "pointer",
               marginTop: "20px",
+              fontSize: "18px",
+              borderRadius: "3px",
+              border: "2px solid",
+              fontFamily: "Lato, sans-serif",
+              borderColor: "#212529",
             }}
           >
-            Save Image
+            SAVE AND PROCESS
           </button>
         </>
       )}

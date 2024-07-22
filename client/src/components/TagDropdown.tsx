@@ -39,4 +39,5 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onTagSelected }) => {
   );
 };
 
+export const tags = ["yellow", "blue"];
 export default TagDropdown;
