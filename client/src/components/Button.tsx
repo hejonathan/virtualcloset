@@ -30,16 +30,13 @@ const Button: React.FC<Props> = ({
   setPage,
 }) => {
   return (
-    <div className="d-flex justify-content-between position-fixed bottom-0 start-0 end-0 p-3">
+    <div className="bottom-fixed-container">
       <button
         style={{
           backgroundColor: color1,
           border: `2px solid ${borderColor1}`,
-          margin: "0 10px",
-          fontSize: "5.3vw", // Adjust as needed
-          padding: "1.5vw", // Adjust as needed
         }}
-        className="btn btn-lg w-33"
+        className="btn btn-lg button-style"
         onClick={() => {
           onClick1();
           setPage("myCloset");
@@ -51,11 +48,8 @@ const Button: React.FC<Props> = ({
         style={{
           backgroundColor: color2,
           border: `2px solid ${borderColor2}`,
-          margin: "0 10px",
-          fontSize: "5.3vw", // Adjust as needed
-          padding: "1.5vw", // Adjust as needed
         }}
-        className="btn btn-lg w-33"
+        className="btn btn-lg button-style"
         onClick={() => {
           onClick2();
           setPage("planOutfit");
@@ -67,11 +61,8 @@ const Button: React.FC<Props> = ({
         style={{
           backgroundColor: color3,
           border: `2px solid ${borderColor3}`,
-          margin: "0 10px",
-          fontSize: "5.3vw", // Adjust as needed
-          padding: "1.5vw", // Adjust as needed
         }}
-        className="btn btn-lg w-33"
+        className="btn btn-lg button-style"
         onClick={() => {
           onClick3();
           setPage("camera");

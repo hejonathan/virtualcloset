@@ -4,3 +4,22 @@ body {
   background-color: #cbe5ef !important;
   font-family: 'Lato', sans-serif !important;
 }
+
+.bottom-fixed-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #cbe5ef; /* Same as the body background */
+  padding: 10px 0; /* Add padding for the buttons */
+}
+
+.button-style {
+  flex: 1;
+  margin: 0 10px;
+  font-size: 5.3vw;
+  padding: 1.5vw;
+}

@@ -1,4 +1,4 @@
-#!/Users/mac/Desktop/virtualcloset/server/venv/bin/python
+#!/Users/JiaqiYu/Desktop/projects/virtual_closet/server/venv/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys
