@@ -23,6 +23,15 @@ const ClosetShelf = () => {
     return selectedTag === "" || cloth.tags.includes(selectedTag);
   });
 
+  const allTags = clothes.reduce((tags, cloth) => {
+    cloth.tags.forEach((tag) => {
+      if (!tags.includes(tag)) {
+        tags.push(tag);
+      }
+    });
+    return tags;
+  }, [] as string[]);
+
   return (
     <div
       className="container"
@@ -37,7 +46,7 @@ const ClosetShelf = () => {
         maxHeight: "79vh",
       }}
     >
-      <TagDropdown onTagSelected={handleTagSelected} />
+      <TagDropdown onTagSelected={handleTagSelected} tags={allTags} />
       {filteredClothes.map((cloth, index) => (
         <div key={index} style={{ width: "calc(50% - 20px)", margin: "10px" }}>
           <img src={cloth.path} alt="Cloth" />

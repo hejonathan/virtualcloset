@@ -35,7 +35,14 @@
    - array of triples (id: integer, path: string, tag: array of strings)
    - Array<{ id: number; path: string; tags: string[] }>
 
-5. save canvas `/api/save-canvas`
+5. get all unique - tags `/api/get-all-tags`
+
+   - under AddTag.tsx
+   - method: GET
+   - client ask for all the possible unique clothing tag
+   - receive list of strings
+
+6. save canvas `/api/save-canvas`
    - method: POST
    - client send 2D array
    - [canvas ID: int, clothingID: string, xposition: double, yposition: double, width: double, height: double, rotation: double, order: int]

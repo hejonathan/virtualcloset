@@ -2,11 +2,10 @@ import React from "react";
 
 interface TagDropdownProps {
   onTagSelected: (tag: string) => void;
+  tags: string[];
 }
 
-const TagDropdown: React.FC<TagDropdownProps> = ({ onTagSelected }) => {
-  const tags = ["yellow", "blue"]; // Add more tags here
-
+const TagDropdown: React.FC<TagDropdownProps> = ({ onTagSelected, tags }) => {
   const handleTagChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onTagSelected(event.target.value);
   };
@@ -39,5 +38,4 @@ const TagDropdown: React.FC<TagDropdownProps> = ({ onTagSelected }) => {
   );
 };
 
-export const tags = ["yellow", "blue"];
 export default TagDropdown;

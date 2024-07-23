@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { tags as initialTags } from "./TagDropdown";
+//import { tags as initialTags } from "./TagDropdown";
 
 const AddTag = () => {
   const [search, setSearch] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [availableTags, setAvailableTags] = useState<string[]>(initialTags);
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
   const [imageSrc, setImageSrc] = useState<string>("");
+
+  useEffect(() => {
+    fetch("/api/get-all-tags")
+      .then((response) => response.json())
+      .then((data) => setAvailableTags(data))
+      .catch((error) => console.error("Error:", error));
+  }, []);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
