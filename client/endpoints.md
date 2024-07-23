@@ -29,6 +29,11 @@
    - array of triples
 
 5. get single clothing image `/api/get-single-cloth`
+
    - method: GET
    - client ask for one clothing image at a time
-   -
+
+6. save canvas `/api/save-canvas`
+   - method: POST
+   - client send 2D array
+   - [canvas ID: int, clothingID: string, xposition: double, yposition: double, width: double, height: double, rotation: double, order: int]

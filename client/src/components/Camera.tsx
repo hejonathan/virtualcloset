@@ -40,6 +40,7 @@ const CameraPage = () => {
         .then((data) => {
           if (data.message) {
             console.log(data.message);
+            navigate("/add-tag");
           } else if (data.error) {
             console.error(data.error);
           }
