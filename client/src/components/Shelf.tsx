@@ -28,6 +28,7 @@ const ClosetShelf = () => {
     // Replace this with your actual logic for determining if an image has a tag
     return selectedTag === "" || image.includes(selectedTag);
   });
+
   return (
     <div
       className="container"

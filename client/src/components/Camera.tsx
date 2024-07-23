@@ -32,21 +32,14 @@ const CameraPage = () => {
       const formData = new FormData();
       formData.append("image", blob, "captured_image.jpeg");
 
-      const requestOptions = {
+      fetch("/api/save-clothing", {
         method: "POST",
         body: formData,
-      };
-
-      fetch("http://localhost:5000/process-image", requestOptions)
+      })
         .then((response) => response.json())
         .then((data) => {
           if (data.message) {
             console.log(data.message);
-            setProcessedImage(data.processedImage);
-            console.log("Processed Image:", data.processedImage);
-            navigate("/add-tag", {
-              state: { processedImage: data.processedImage },
-            });
           } else if (data.error) {
             console.error(data.error);
           }
