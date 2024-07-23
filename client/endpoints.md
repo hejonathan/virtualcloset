@@ -4,6 +4,7 @@
 
 1. clothing image upload: `/api/save-clothing`
 
+   - under Camera.tsx
    - method: POST
    - function: saves a new clothing into the server
    - format: `FormData(Blob(string))`
@@ -12,14 +13,18 @@
 
 2. process image `/api/processed-image`
 
+   - under AddTag.tsx
    - method: GET
    - server send the processed image and ID to the client as a square with transparent background
-   - ID: `integer`
+   - id: `integer`
 
 3. save tag `/api/save-tag`
 
+   - under AddTag.tsx
    - method: POST
-   - client send integer and then append array of string of tags
+   - client send integer and then array of string of tags
+   - id: `integer`
+   - selectedTags `string[]`
 
 4. get all cloth `/api/get-all-cloth`
 

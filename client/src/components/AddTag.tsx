@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { tags as initialTags } from "./TagDropdown";
 
 const AddTag = () => {
@@ -6,6 +6,7 @@ const AddTag = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [availableTags, setAvailableTags] = useState<string[]>(initialTags);
   const [newTag, setNewTag] = useState("");
+  const [imageSrc, setImageSrc] = useState<string>("");
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -33,6 +34,44 @@ const AddTag = () => {
       setAvailableTags([...availableTags, newTag]);
       setNewTag("");
     }
+  };
+
+  const [id, setId] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/processed-image")
+      .then((response) => {
+        const id = response.headers.get("id");
+        setId(id ? parseInt(id) : null); // Convert id to a number
+        return response.blob();
+      })
+      .then((blob) => {
+        const objectURL = URL.createObjectURL(blob);
+        setImageSrc(objectURL);
+      })
+      .catch((error) => console.error("Error:", error));
+  }, []);
+
+  const handleSaveTags = () => {
+    fetch("/api/save-tag", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id, // Use the stored ID
+        tags: selectedTags,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message) {
+          console.log(data.message);
+        } else if (data.error) {
+          console.error(data.error);
+        }
+      })
+      .catch((error) => console.error("Error:", error));
   };
 
   const style: React.CSSProperties = {
@@ -63,7 +102,7 @@ const AddTag = () => {
     fontFamily: "Lato, sans-serif",
     borderColor: "#212529",
     padding: "10px",
-    marginBottom: "20px", //to leave space for the tags
+    marginBottom: "10px", //to leave space for the tags
   };
   const inputBoxStyle: React.CSSProperties = {
     width: "53vw",
@@ -111,6 +150,15 @@ const AddTag = () => {
 
   return (
     <div style={style}>
+      <div style={{ marginTop: "-160px", paddingBottom: "15px" }}>
+        {imageSrc && (
+          <img
+            src={imageSrc}
+            alt="Processed Image"
+            style={{ width: "180px", height: "180px" }}
+          />
+        )}
+      </div>
       <div
         style={{
           display: "flex",
@@ -163,6 +211,12 @@ const AddTag = () => {
             </div>
           ))}
         </div>
+        <button
+          onClick={handleSaveTags}
+          style={{ ...buttonStyle, marginTop: "0px" }}
+        >
+          Save Tags
+        </button>
       </div>
     </div>
   );
