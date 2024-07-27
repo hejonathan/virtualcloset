@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 //import { tags as initialTags } from "./TagDropdown";
 
 const AddTag = () => {
+  const { id } = useParams<{ id: string }>()
   const [search, setSearch] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [availableTags, setAvailableTags] = useState<string[]>([]);
@@ -11,7 +13,13 @@ const AddTag = () => {
   useEffect(() => {
     fetch("/api/get-all-tags")
       .then((response) => response.json())
-      .then((data) => setAvailableTags(data))
+      .then((data) => {
+        if (data.tags) {
+          setAvailableTags(data.tags);
+        } else {
+          console.error("Invalid response format:", data);
+        }
+      })
       .catch((error) => console.error("Error:", error));
   }, []);
 
@@ -43,21 +51,28 @@ const AddTag = () => {
     }
   };
 
-  const [id, setId] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("/api/processed-image")
-      .then((response) => {
-        const id = response.headers.get("id");
-        setId(id ? parseInt(id) : null); // Convert id to a number
-        return response.blob();
-      })
-      .then((blob) => {
-        const objectURL = URL.createObjectURL(blob);
-        setImageSrc(objectURL);
-      })
-      .catch((error) => console.error("Error:", error));
-  }, []);
+    const fetchImage = async () => {
+      if (id) {
+        try {
+          const response = await fetch(`/api/processed-image?id=${id}`);
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Image not found');
+          }
+          const blob = await response.blob();
+          const objectURL = URL.createObjectURL(blob);
+          setImageSrc(objectURL);
+          console.log('Image fetched and converted to object URL successfully.');
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+
+    fetchImage();
+  }, [id]);
 
   const handleSaveTags = () => {
     fetch("/api/save-tag", {

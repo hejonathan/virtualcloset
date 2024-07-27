@@ -38,9 +38,10 @@ const CameraPage = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          if (data.message) {
+          if (data.message && data.id) {
             console.log(data.message);
-            navigate("/add-tag");
+            console.log("Image ID:", data.id);
+            navigate(`/add-tag/${data.id}`);
           } else if (data.error) {
             console.error(data.error);
           }
