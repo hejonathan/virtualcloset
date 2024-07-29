@@ -35,33 +35,36 @@ def allowed_file(filename):
 
 @app.route('/save-clothing', methods=['POST'])
 def save_clothing():
-    if 'image' not in request.files:
-        return jsonify({"error": "No file part"}), 400
+    try:
+        if 'image' not in request.files:
+            return jsonify({"error": "No file part"}), 400
 
-    file = request.files['image']
+        file = request.files['image']
 
-    if file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
+        if file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
 
-    if file and allowed_file(file.filename):
-        unique_id = str(uuid.uuid4())
-        extension = file.filename.rsplit('.', 1)[1].lower()
-        filename = secure_filename(f"{unique_id}.{extension}")
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-        new_clothing_item = {
-            "tags": []
-        }
-        clothing_data[unique_id] = new_clothing_item
+        if file and allowed_file(file.filename):
+            unique_id = str(uuid.uuid4())
+            extension = file.filename.rsplit('.', 1)[1].lower()
+            filename = secure_filename(f"{unique_id}.{extension}")
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            new_clothing_item = {
+                "tags": []
+            }
+            clothing_data[unique_id] = new_clothing_item
 
-        # Save updated clothing data to the JSON file
-        with open(CLOTHING_FILE, 'w') as f:
-            json.dump(clothing_data, f)
+            # Save updated clothing data to the JSON file
+            with open(CLOTHING_FILE, 'w') as f:
+                json.dump(clothing_data, f)
 
-        return jsonify({"message": "File saved successfully", "id": unique_id}), 200
-    else:
-        return jsonify({"error": "File type not allowed"}), 400
-    
+            return jsonify({"message": "File saved successfully", "id": unique_id}), 200
+        else:
+            return jsonify({"error": "File type not allowed"}), 400
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/processed-image', methods=['GET'])
 def get_processed_image():
