@@ -70,7 +70,7 @@ function App() {
           <Route path="/myCloset" element={<ClosetShelf />} />
           <Route path="/planOutfit" element={<ClosetShelf />} />
           <Route path="/camera" element={<CameraPage />} />
-          <Route path="/add-tag" element={<AddTag />} />
+          <Route path="/add-tag/:id" element={<AddTag />} />
           <Route path="/" element={<div />} />
         </Routes>
       </div>

@@ -8,41 +8,46 @@
    - method: POST
    - function: saves a new clothing into the server
    - format: `FormData(Blob(string))`
-   - if successful: "
-   - if failed:
+   - if successful: return success message with ID
+   - if failed: return error
 
-2. process image `/api/processed-image`
-
+2. process image `/api/processed-image?id={id}`
    - under AddTag.tsx
    - method: GET
    - server send the processed image and ID to the client as a square with transparent background
-   - id: `integer`
+   - id: `string`
 
 3. save tag `/api/save-tag`
-
    - under AddTag.tsx
    - method: POST
    - client send integer and then array of string of tags
-   - id: `integer`
+   - id: `string`
    - selectedTags `string[]`
 
-4. get all cloth `/api/get-all-cloth`
+4. save tag `/api/get-tag`
+   - under dont know where
+   - method: GET
+   - client send integer and then gets an array of string of tags
+   - id: `string`
+   - selectedTags `string[]`
+
+5. get all cloth `/api/get-all-cloth`
 
    - under Shelf.tsx
    - method: GET
    - client ask for clothing ID, clothing path, clothing tag
    - receive list of clothing path
-   - array of triples (id: integer, path: string, tag: array of strings)
-   - Array<{ id: number; path: string; tags: string[] }>
+   - array of triples (id: string, tag: array of strings)
+   - Array<{ id: string; tags: string[] }>
 
-5. get all unique - tags `/api/get-all-tags`
+6. get all unique - tags `/api/get-all-tags`
 
    - under AddTag.tsx
    - method: GET
    - client ask for all the possible unique clothing tag
    - receive list of strings
 
-6. save canvas `/api/save-canvas`
+7. save canvas `/api/save-canvas`
    - method: POST
    - client send 2D array
    - [canvas ID: int, clothingID: string, xposition: double, yposition: double, width: double, height: double, rotation: double, order: int]
