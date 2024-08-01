@@ -4,6 +4,7 @@ import Button from "./components/Button"; //bottom two buttons
 import ClosetShelf from "./components/Shelf"; //closet
 import CameraPage from "./components/Camera";
 import AddTag from "./components/AddTag";
+import OutfitCanvas from "./components/OutfitCanvas";
 import React from "react";
 
 import "./App.css";
@@ -68,7 +69,7 @@ function App() {
 
         <Routes>
           <Route path="/myCloset" element={<ClosetShelf />} />
-          <Route path="/planOutfit" element={<ClosetShelf />} />
+          <Route path="/planOutfit" element={<OutfitCanvas />} />
           <Route path="/camera" element={<CameraPage />} />
           <Route path="/add-tag/:id" element={<AddTag />} />
           <Route path="/" element={<div />} />
