@@ -50,7 +50,7 @@
 7. save canvas `/api/save-canvas`
    - method: POST
    - client send 2D array
-   - [canvas ID: int, clothingID: string, xposition: double, yposition: double, width: double, height: double, rotation: double, order: int]
+   - array with number of images on the canvas, each element in array is [canvas ID: int, clothingID: string, xposition: double, yposition: double, width: double, height: double, rotation: double, order: int]
 
 8. delete clothing `/api/delete-clothing`
    - method: POST

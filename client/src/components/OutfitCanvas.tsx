@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Rnd } from "react-rnd";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 type Cloth = {
@@ -7,8 +8,20 @@ type Cloth = {
   tags: string[];
 };
 
+type CanvasImage = {
+  clothId: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rotation: number;
+  order: number;
+};
+
 const OutfitCanvas = () => {
   const [clothes, setClothes] = useState<Cloth[]>([]);
+  const [canvasImages, setCanvasImages] = useState<CanvasImage[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/get-all-cloth")
@@ -17,9 +30,56 @@ const OutfitCanvas = () => {
       .catch((error) => console.error("Error:", error));
   }, []);
 
-  const handleSelect = (id: string) => {
-    console.log(`Selected cloth ID: ${id}`);
-    // Add your logic here to handle the selection of a cloth
+  const handleSelect = (cloth: Cloth) => {
+    setSelectedImage(cloth.path);
+    setCanvasImages((prevImages) => [
+      ...prevImages,
+      {
+        clothId: cloth.id,
+        x: 0,
+        y: 0,
+        width: 320,
+        height: 200,
+        rotation: 0,
+        order: prevImages.length,
+      },
+    ]);
+  };
+
+  const handleDragStop = (index: number, e: any, d: any) => {
+    setCanvasImages((prevImages) => {
+      const newImages = [...prevImages];
+      newImages[index].x = d.x;
+      newImages[index].y = d.y;
+      return newImages;
+    });
+  };
+
+  const handleResizeStop = (
+    index: number,
+    e: any,
+    direction: any,
+    ref: any
+  ) => {
+    setCanvasImages((prevImages) => {
+      const newImages = [...prevImages];
+      newImages[index].width = ref.offsetWidth;
+      newImages[index].height = ref.offsetHeight;
+      return newImages;
+    });
+  };
+
+  const handleSave = () => {
+    fetch("/api/save-canvas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(canvasImages),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
   };
 
   return (
@@ -38,19 +98,56 @@ const OutfitCanvas = () => {
           paddingTop: "70px",
         }}
       >
+        <button
+          style={{
+            width: "44vw",
+            height: "4vh",
+            position: "absolute",
+            top: "20px",
+            right: "20px",
+            backgroundColor: "#87c1d8",
+            color: "black",
+            borderColor: "#212529",
+            fontSize: "16px",
+            fontFamily: "Lato, sans-serif",
+            padding: "5px",
+            borderRadius: "3px",
+            border: "2px solid",
+            cursor: "pointer",
+          }}
+          onClick={handleSave}
+        >
+          SAVE CANVAS
+        </button>
         <TransformWrapper>
           <TransformComponent>
             <div
               style={{
                 width: "5000px",
                 height: "5000px",
-                backgroundColor: "#f1f1f1",
+                backgroundColor: "#f1f1d1",
               }}
             >
-              {Array.from({ length: 50 }).map((_, index) => (
-                <p key={index} style={{ margin: "20px" }}>
-                  Text {index + 1}
-                </p>
+              {canvasImages.map((image, index) => (
+                <Rnd
+                  key={index}
+                  default={{
+                    x: image.x,
+                    y: image.y,
+                    width: image.width,
+                    height: image.height,
+                  }}
+                  onDragStop={(e, d) => handleDragStop(index, e, d)}
+                  onResizeStop={(e, direction, ref) =>
+                    handleResizeStop(index, e, direction, ref)
+                  }
+                >
+                  <img
+                    src={selectedImage || undefined}
+                    alt="Selected"
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </Rnd>
               ))}
             </div>
           </TransformComponent>
@@ -77,8 +174,8 @@ const OutfitCanvas = () => {
             key={cloth.id}
             src={cloth.path}
             alt={cloth.tags.join(", ")}
-            style={{ width: "200px", height: "auto", margin: "10px" }} // Increase the width to make the images bigger
-            onClick={() => handleSelect(cloth.id)}
+            style={{ width: "200px", height: "auto", margin: "10px" }}
+            onClick={() => handleSelect(cloth)}
           />
         ))}
       </div>
