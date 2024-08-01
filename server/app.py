@@ -119,8 +119,12 @@ def get_all_tags():
 
 @app.route('/get-all-cloth', methods=['GET'])
 def get_all_cloth():
-    all_clothing = [{"id": key, "path": os.path.join(UPLOAD_FOLDER, f"{key}.jpeg"), "tags": item["tags"]} for key, item in clothing_data.items()]
+    all_clothing = [{"id": key, "path": f"http://localhost:8081/uploads/{key}.jpeg", "tags": item["tags"]} for key, item in clothing_data.items()]
     return jsonify(all_clothing)
+
+@app.route('/uploads/<path:filename>', methods=['GET'])
+def download_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 if __name__ == '__main__':

@@ -14,7 +14,20 @@ const ClosetShelf = () => {
   useEffect(() => {
     fetch("/api/get-all-cloth")
       .then((response) => response.json())
-      .then((data) => setClothes(data))
+      .then(async (data) => {
+        const clothesWithBlobUrls = await Promise.all(
+          data.map(
+            async (cloth: { id: number; path: string; tags: string[] }) => {
+              console.log(cloth.path); // Log the URL to the console
+              const response = await fetch(cloth.path);
+              const blob = await response.blob();
+              const objectURL = URL.createObjectURL(blob);
+              return { ...cloth, path: objectURL };
+            }
+          )
+        );
+        setClothes(clothesWithBlobUrls);
+      })
       .catch((error) => console.error("Error:", error));
   }, []);
 
@@ -36,26 +49,25 @@ const ClosetShelf = () => {
     <div
       className="container"
       style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-around",
-        padding: "10px",
+        display: "grid",
+        gridTemplateColumns: "repeat(2, 1fr)", // This will create a grid with 2 columns
+        gap: "10px", // This is the space between the images
         marginTop: "9vh",
         marginBottom: "9vh",
         overflowY: "auto",
-        maxHeight: "79vh",
       }}
     >
       <TagDropdown onTagSelected={handleTagSelected} tags={allTags} />
-      {filteredClothes.map((cloth, index) => (
-        <div key={index} style={{ width: "calc(50% - 20px)", margin: "10px" }}>
-          <img src={cloth.path} alt="Cloth" />
-          <div>
-            {cloth.tags.map((tag, tagIndex) => (
-              <span key={tagIndex}>{tag}</span>
-            ))}
-          </div>
-        </div>
+      {filteredClothes.map((cloth) => (
+        <img
+          key={cloth.id}
+          src={cloth.path}
+          alt={cloth.tags.join(", ")}
+          style={{
+            width: "100%", // This will make the images fill their grid cell
+            height: "auto", // This will maintain the aspect ratio of the images
+          }}
+        />
       ))}
     </div>
   );
