@@ -51,3 +51,8 @@
    - method: POST
    - client send 2D array
    - [canvas ID: int, clothingID: string, xposition: double, yposition: double, width: double, height: double, rotation: double, order: int]
+
+8. delete clothing `/api/delete-clothing`
+   - method: POST
+   - client send the id of the clothing
+   - server remove all the things associated with this clothing
