@@ -53,6 +53,7 @@ function App() {
         </Link>
 
         <Button
+          style={{ zIndex: 1 }}
           color1={colors.secondary}
           borderColor1={"black"}
           onClick1={() => {}}

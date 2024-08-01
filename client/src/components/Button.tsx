@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
+  style?: React.CSSProperties;
   color1: string;
   borderColor1: string;
   onClick1: () => void;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const Button: React.FC<Props> = ({
+  style, // Add this line
   color1,
   borderColor1,
   onClick1,
@@ -33,7 +35,9 @@ const Button: React.FC<Props> = ({
   const navigate = useNavigate();
 
   return (
-    <div className="bottom-fixed-container">
+    <div className="bottom-fixed-container" style={style}>
+      {" "}
+      {/* Apply the style prop here */}
       <button
         style={{
           backgroundColor: color1,
