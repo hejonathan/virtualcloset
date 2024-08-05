@@ -1,0 +1,20 @@
+[
+    {
+        "clothId": "5ca94bed-72b5-496d-b02c-65ae95744d94",
+        "x": 327,
+        "y": 0,
+        "width": 320,
+        "height": 200,
+        "rotation": 0,
+        "order": 0
+    },
+    {
+        "clothId": "5ca94bed-72b5-496d-b02c-65ae95744d94",
+        "x": 404,
+        "y": 1,
+        "width": 320,
+        "height": 200,
+        "rotation": 0,
+        "order": 1
+    }
+]

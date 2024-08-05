@@ -31,7 +31,7 @@
    - id: `string`
    - selectedTags `string[]`
 
-5. get all cloth `/api/get-all-cloth`
+5. get all cloth `/api/get-all-cloth-tags`
 
    - under Shelf.tsx
    - method: GET
@@ -51,6 +51,10 @@
    - method: POST
    - client send 2D array
    - array with number of images on the canvas, each element in array is [canvas ID: int, clothingID: string, xposition: double, yposition: double, width: double, height: double, rotation: double, order: int]
+
+8. get canvas `/api/get-canvas`
+   - method: GET
+   - reverse
 
 8. delete clothing `/api/delete-clothing`
    - method: POST

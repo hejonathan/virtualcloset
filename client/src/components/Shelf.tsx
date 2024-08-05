@@ -42,7 +42,7 @@ const ClosetShelf = () => {
   };
 
   useEffect(() => {
-    fetch("/api/get-all-cloth")
+    fetch("/api/get-all-cloth-tags")
       .then((response) => response.json())
       .then(async (data) => {
         const clothesWithBlobUrls = await Promise.all(

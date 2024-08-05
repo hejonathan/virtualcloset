@@ -24,7 +24,7 @@ const OutfitCanvas = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/get-all-cloth")
+    fetch("/api/get-all-cloth-tags")
       .then((response) => response.json())
       .then((data) => setClothes(data))
       .catch((error) => console.error("Error:", error));

@@ -11,12 +11,14 @@ CORS(app, origins='*')
 
 # Set the upload folder and allowed extensions
 CLOTHING_FILE = '../uploads/clothing.json'
+CANVAS_FILE = '../uploads/canvas.json'
 UPLOAD_FOLDER = '../uploads'
 ALLOWED_EXTENSIONS = {'jpeg', 'jpg', 'png'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['CLOTHING_FILE'] = CLOTHING_FILE
 
 clothing_items = {}
+canvas_data = {}
 
 def load_clothing():
     if os.path.exists(CLOTHING_FILE):
@@ -24,7 +26,14 @@ def load_clothing():
             return json.load(file)
     return {}
 
+def load_canvas():
+    if os.path.exists(CANVAS_FILE):
+        with open(CANVAS_FILE, 'r') as file:
+            return json.load(file)
+
 clothing_data = load_clothing()
+canvas_data = load_canvas()
+
 
 # Ensure the upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -117,7 +126,7 @@ def get_all_tags():
     return jsonify({'tags': sorted(list(all_tags)),
                     'message': 'all tags sent to client successfully'})
 
-@app.route('/get-all-cloth', methods=['GET'])
+@app.route('/get-all-cloth-tags', methods=['GET'])
 def get_all_cloth():
     all_clothing = [{"id": key, "path": f"http://localhost:8081/uploads/{key}.jpeg", "tags": item["tags"]} for key, item in clothing_data.items()]
     return jsonify(all_clothing)
@@ -126,6 +135,48 @@ def get_all_cloth():
 def download_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+@app.route('/delete-clothing')
+def delete_clothing():
+    data = request.get_json()
+    clothing_id = data.get('id')
+
+    if not clothing_id or clothing_id not in clothing_data:
+        return jsonify({"error": "Clothing item not found"}), 404
+
+    # Delete the image file
+    filename = f'{clothing_data[clothing_id]}.jpeg'
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    if os.path.exists(filepath):
+        os.remove(filepath)
+
+    # Remove the item from clothing_data
+    del clothing_data[clothing_id]
+    # Save updated clothing data to the JSON file
+    with open(CLOTHING_FILE, 'w') as f:
+        json.dump(clothing_data, f)
+
+    return jsonify({"message": "Clothing item deleted successfully"}), 200
+
+
+@app.route('/save-canvas', methods=['POST'])
+def save_canvas():
+    try:
+        canvas_data = request.json  # This will be a list of dictionaries
+        with open(CANVAS_FILE, 'w') as f:
+            json.dump(canvas_data, f, indent=4)  # Save the list of dictionaries to a file
+        return jsonify({"message": "Canvas data saved successfully"}), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": str(e)}), 404
+    
+@app.route('/get-canvas', methods=['GET'])
+def get_canvas():
+    try:
+        return jsonify(canvas_data), 200
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({"error": str(e)}), 404
+    
 
 if __name__ == '__main__':
     app.run(debug=True, port=8081)
